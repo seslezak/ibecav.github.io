@@ -1,3 +1,8 @@
+---
+layout: post
+title: Introducing the CGPfunctions package
+---
+
 [![CRAN
 Version](http://www.r-pkg.org/badges/version/CGPfunctions)](http://CRAN.R-project.org/package=CGPfunctions)
 
