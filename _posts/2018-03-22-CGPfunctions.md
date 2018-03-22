@@ -39,7 +39,7 @@ devtools::install_github("ibecav/CGPfunctions")
 
 ## Usage
 
-`library(CGPfunctions)` will load the package which contains 4
+`library(CGPfunctions)` will load the package which contains 5
 functions:
 
 `SeeDist` will give you some plots of the distribution of a variable
