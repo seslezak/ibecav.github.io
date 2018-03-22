@@ -47,7 +47,7 @@ library(CGPfunctions)
 SeeDist(mtcars$hp,whatvar="Horsepower",whatplots="d")
 ```
 
-![](README-SeeDist-1.png)<!-- -->
+![](/images/README-SeeDist-1.png)<!-- -->
 
     #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
     #>    52.0    96.5   123.0   146.7   180.0   335.0
@@ -126,7 +126,7 @@ Plot2WayANOVA(mpg~am*cyl, mtcars)
 #> Interaction graph plotted...
 ```
 
-![](README-Plot2WayANOVA-1.png)<!-- -->
+![](/images/README-Plot2WayANOVA-1.png)<!-- -->
 
 `OurConf` is a simulation function that helps you learn about confidence
 intervals
@@ -135,7 +135,7 @@ intervals
 OurConf(samples = 20, n = 15, mu = 100, sigma = 20, conf.level = 0.90)
 ```
 
-![](README-OurConf-1.png)<!-- -->
+![](/images/README-OurConf-1.png)<!-- -->
 
     #> 100 % of the confidence intervals contain Mu = 100 .
 
