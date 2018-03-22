@@ -29,6 +29,7 @@ packages and concepts I’m trying to master. Currently contains:
 # Install from CRAN
 install.packages("CGPfunctions")
 
+# Highly recommended since it is under rapid development right now
 # Or the development version from GitHub
 # install.packages("devtools")
 devtools::install_github("ibecav/CGPfunctions")
