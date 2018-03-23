@@ -10,7 +10,7 @@ Version](http://www.r-pkg.org/badges/version/CGPfunctions)](http://CRAN.R-projec
 
 ## Overview
 
-A package that includes functions that I find useful for teaching
+This package includes functions that I find useful for teaching
 statistics as well as actually practicing the art. They typically are
 not “new” methods but rather wrappers around either base R or other
 packages and concepts I’m trying to master. Currently contains:
