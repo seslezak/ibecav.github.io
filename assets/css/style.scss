@@ -35,27 +35,6 @@ h3, h4, h5, h6 {
   color:#494949;
 }
 
-a {
-  color:#267CB9;
-  text-decoration:none;
-}
-
-a:hover, a:focus {
-  color:#069;
-  font-weight: bold;
-}
-
-a small {
-  font-size:10px;
-  color:#777;
-  margin-top:-0.3em;
-  display:block;
-}
-
-a:hover small {
-  color:#777;
-}
-
 .wrapper {
   width:1060px;
   margin:0 auto;
@@ -79,26 +58,6 @@ pre {
   border-radius:5px;
   border:1px solid #e5e5e5;
   overflow-x: auto;
-}
-
-table {
-  width:100%;
-  border-collapse:collapse;
-}
-
-th, td {
-  text-align:left;
-  padding:5px 10px;
-  border-bottom:1px solid #e5e5e5;
-}
-
-dt {
-  color:#444;
-  font-weight:700;
-}
-
-th {
-  color:#444;
 }
 
 img {
