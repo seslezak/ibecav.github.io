@@ -5,8 +5,6 @@ title: Introducing the CGPfunctions package
 
 [![CRAN
 Version](http://www.r-pkg.org/badges/version/CGPfunctions)](http://CRAN.R-project.org/package=CGPfunctions)
-[![RBloggers](https://scontent.fijd1-1.fna.fbcdn.net/v/t1.0-1/p50x50/10579991_10152371745729891_2633195746639144346_n.png?oh=fdf4a52588c604d12931ae0d646be01f&oe=5B27FCDC)](http://r-bloggers.com)
-
 
 ## Overview
 
