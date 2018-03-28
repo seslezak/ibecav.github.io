@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Introducing the CGPfunctions package
+title: Introducing the CGPfunctions package -- March 22, 2018
 ---
 
 [![CRAN
