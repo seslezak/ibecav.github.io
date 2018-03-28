@@ -12,3 +12,5 @@ package.json
 Web.Rproj
 .Rhistory
 webgit.Rproj
+.RData
+cache
