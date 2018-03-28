@@ -106,7 +106,7 @@ cautiously. What I’m about to explain as my method will likely seem
 quaint and even antiquated to some but has the advantage of being very
 methodical and very practical. There are lots of places on the web to
 read about this stuff, I’m simply making the case I hope mine is slow
-and enough and methodical enough for a beginner.
+enough and methodical enough for a beginner.
 
 What do we have there in those 12 iterations? Well what we have are 3
 variables `EDUCATION`, `EARNINGS`, and `AGE` that we want to **“cross”**
