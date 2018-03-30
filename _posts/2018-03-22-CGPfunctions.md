@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Introducing the CGPfunctions package -- March 22, 2018
+tags: R CRAN Plot2WayANOVA ggplot2 ANOVA
 ---
 
 [![CRAN
