@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Using functions to be more efficient – March 28, 2018
-tags: R dplyr excel lapply for-loop
+tags: R dplyr excel lapply for-loop openxlsx
 ---
 
 In yesterday’s post I focused on the task of using R to “drive” MS
