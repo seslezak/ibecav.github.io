@@ -1,7 +1,8 @@
-Writing functions for dplyr and ggplot2 – April 2, 2018
-================
-Chuck Powell
-4/2/2018
+---
+layout: post
+title: Writing functions for dplyr and ggplot2 – April 2, 2018
+tags: R dplyr excel lapply for-loop openxlsx
+---
 
 In my last two posts I have been writing about the task of using R to
 “drive” MS Excel. The first post focused on just the basic mechanics
