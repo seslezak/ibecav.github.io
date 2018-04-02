@@ -140,7 +140,7 @@ OfInterest %>%
     geom_bar(position="dodge", stat="identity")
 ```
 
-![](customizegit_files/figure-gfm/makeplots1-1.png)<!-- -->
+![](/images/makeplots1-1.png)<!-- -->
 
 ``` r
 OfInterest %>%
