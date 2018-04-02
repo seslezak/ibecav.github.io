@@ -151,7 +151,7 @@ OfInterest %>%
     geom_bar(stat="identity")
 ```
 
-![](customizegit_files/figure-gfm/makeplots1-2.png)<!-- -->
+![](/images/makeplots1-2.png)<!-- -->
 
 ``` r
 OfInterest %>%
