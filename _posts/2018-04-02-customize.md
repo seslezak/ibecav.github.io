@@ -162,7 +162,7 @@ OfInterest %>%
     geom_bar(stat="identity", position="fill")
 ```
 
-![](customizegit_files/figure-gfm/makeplots1-3.png)<!-- -->
+![](/images/makeplots1-3.png)<!-- -->
 
 **Note that with our original choice of using the `table` command to
 create the cross tabulation that the `NA`s were silently discarded. With
@@ -184,7 +184,7 @@ OfInterest %>%
     geom_bar(stat="identity", position="fill")
 ```
 
-![](customizegit_files/figure-gfm/makeplots2-1.png)<!-- -->
+![](/images/makeplots2-1.png)<!-- -->
 
 I’ll leave it up to you, the reader, to decide which graph communicates
 any points you want to make about the data. I also acknowledge that at
@@ -250,7 +250,7 @@ PlotMe <- function(dataframe,x,y){
 PlotMe(OfInterest,EDUCATION,NOTCOV)
 ```
 
-![](customizegit_files/figure-gfm/therightway1-1.png)<!-- -->
+![](/images/therightway1-1.png)<!-- -->
 
 ## “Banging” out an NSE solution (pun intended)
 
@@ -361,12 +361,12 @@ lapply (indvars, PlotMe, dataframe=OfInterest, y =NOTCOV)
 
     ## [[1]]
 
-![](customizegit_files/figure-gfm/lists3-1.png)<!-- -->
+![](/images/lists3-1.png)<!-- -->
 
     ## 
     ## [[2]]
 
-![](customizegit_files/figure-gfm/lists3-2.png)<!-- -->
+![](/images/lists3-2.png)<!-- -->
 
 ``` r
 lapply (depvars, PlotMe, dataframe=OfInterest, x =EDUCATION)
@@ -374,12 +374,12 @@ lapply (depvars, PlotMe, dataframe=OfInterest, x =EDUCATION)
 
     ## [[1]]
 
-![](customizegit_files/figure-gfm/lists3-3.png)<!-- -->
+![](/images/lists3-3.png)<!-- -->
 
     ## 
     ## [[2]]
 
-![](customizegit_files/figure-gfm/lists3-4.png)<!-- -->
+![](/images/lists3-4.png)<!-- -->
 
 ``` r
 #lapply(depvars, function (x) lapply(indvars, function (y) PlotMe(dataframe=OfInterest,y=y,x=x)))
@@ -553,7 +553,7 @@ PlotMe <- function(dataframe,x,y){
 invisible(mapply(PlotMe,x=indvars,y=depvars,MoreArgs = list(dataframe=OfInterest)))
 ```
 
-![](customizegit_files/figure-gfm/lapply6-1.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-2.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-3.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-4.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-5.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-6.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-7.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-8.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-9.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-10.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-11.png)<!-- -->![](customizegit_files/figure-gfm/lapply6-12.png)<!-- -->
+![](/images/lapply6-1.png)<!-- -->![](/images/lapply6-2.png)<!-- -->![](/images/lapply6-3.png)<!-- -->![](/images/lapply6-4.png)<!-- -->![](/images/lapply6-5.png)<!-- -->![](/images/lapply6-6.png)<!-- -->![](/images/lapply6-7.png)<!-- -->![](/images/lapply6-8.png)<!-- -->![](/images/lapply6-9.png)<!-- -->![](/images/lapply6-10.png)<!-- -->![](/images/lapply6-11.png)<!-- -->![](/images/lapply6-12.png)<!-- -->
 
 Eureka\! There are our 12 charts\! But you will notice I added a few
 more lines of code that need explanation …
