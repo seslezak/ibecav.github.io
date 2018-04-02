@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Writing functions for dplyr and ggplot2 – April 2, 2018
-tags: R dplyr excel lapply for-loop openxlsx
+tags: R dplyr ggplot2 lapply for-loop mapply NSE functions
 ---
 
 In my last two posts I have been writing about the task of using R to
