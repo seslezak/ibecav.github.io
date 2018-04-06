@@ -92,7 +92,7 @@ mtcars %>%
     geom_bar(position="dodge", stat="identity")
 ```
 
-![](betterfunctions_files/figure-gfm/makeplots1-1.png)<!-- -->
+![](betterfunctions_files/figure-gfm/betterfunctions1-1.png)<!-- -->
 
 then turned it into a function after we learned about `NSE`:
 
@@ -111,7 +111,7 @@ PlotMe <- function(dataframe,x,y){
 PlotMe(mtcars,am,cyl)
 ```
 
-![](betterfunctions_files/figure-gfm/therightway1-1.png)<!-- -->
+![](betterfunctions_files/figure-gfm/betterfunctions2-1.png)<!-- -->
 
 > **Note that with `dplyr` if we don’t `filter` out `NA`’s we will see
 > them plotted which may or may not be what you want substantively\!**
@@ -189,7 +189,7 @@ PlotMe <- function(dataframe,x,y){
 PlotMe(mtcars,am,cyl)
 ```
 
-![](betterfunctions_files/figure-gfm/therightway2-1.png)<!-- -->
+![](betterfunctions_files/figure-gfm/betterfunctions4-1.png)<!-- -->
 
 Totally uninspired but serviceable. Better yet is to use `bquote` and
 the `.()` notation to make it more pertinent and portable. Notice that
@@ -221,7 +221,7 @@ PlotMe <- function(dataframe,x,y){
 PlotMe(mtcars,am,cyl)
 ```
 
-![](betterfunctions_files/figure-gfm/therightway3-1.png)<!-- -->
+![](betterfunctions_files/figure-gfm/betterfunctions5-1.png)<!-- -->
 
 Okay enough for now. Maybe later we’ll do something about *am* and *cyl*
 as labels. If the `mtcars` dataframe used better column names we
@@ -297,7 +297,7 @@ PlotMe <- function(dataframe,x,y){
 PlotMe(mtcars,am,cyl)
 ```
 
-![](betterfunctions_files/figure-gfm/therightway4-1.png)<!-- -->
+![](betterfunctions_files/figure-gfm/betterfunctions7-1.png)<!-- -->
 
 Okay, we’ve made improvements to our labeling. We’ve caught a minor fix
 that was because we made an *assumption* that our variables would always
@@ -381,13 +381,13 @@ PlotMe <- function(dataframe,x,y){
 PlotMe(mtcars,am,cyl)
 ```
 
-![](betterfunctions_files/figure-gfm/errorchecking1-1.png)<!-- -->
+![](betterfunctions_files/figure-gfm/betterfunctions8-1.png)<!-- -->
 
 ``` r
 PlotMe(ToothGrowth,supp,dose)
 ```
 
-![](betterfunctions_files/figure-gfm/errorchecking1-2.png)<!-- -->
+![](betterfunctions_files/figure-gfm/betterfunctions8-2.png)<!-- -->
 
 It may seem silly to have more lines of error-checking than code but
 trust me it’s worth it in the long haul. I like to test and see what
