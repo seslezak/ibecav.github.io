@@ -80,7 +80,7 @@ At the end of the last post we had accomplished two important feats:
     could make lots of plots with little additional effort
 
 Along the way we learned the **“tricks”** of working with `dplyr` and
-`ggplot2` inside of functions \[1\]. So using the `mtcars` dataset as
+`ggplot2` inside of functions ^\[1\]^. So using the `mtcars` dataset as
 our example data we started here with something that works in the
 console:
 
