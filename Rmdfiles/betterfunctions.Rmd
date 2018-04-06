@@ -32,7 +32,7 @@ At the end of the last post we had accomplished two important feats:
 
 Along the way we learned the **"tricks"** of working with `dplyr` and `ggplot2` inside of functions [^1]. So using the `mtcars` dataset as our example data we started here with something that works in the console:
 
-```{r makeplots1}
+```{r betterfunctions1}
 ### with dplyr and ggplot manually
 mtcars %>%
   filter(!is.na(am), !is.na(cyl))  %>%
@@ -44,7 +44,7 @@ mtcars %>%
 
 then turned it into a function after we learned about `NSE`:
 
-```{r therightway1}
+```{r betterfunctions2}
 PlotMe <- function(dataframe,x,y){
    aaa <- enquo(x)
    bbb <- enquo(y)
@@ -65,7 +65,7 @@ PlotMe(mtcars,am,cyl)
 
 We also wrote some code that allows us to be more efficient if we want to print multiple pairings in the same data set. The `cat` statement is unnecessary I simply inserted it so you can see how the loops provide what we need.  We'll remove it in the final version of the function most likely.
 
-```{r otherfunction, fig.width=4.5,fig.height=2}
+```{r betterfunctions3, fig.width=4.5,fig.height=2}
 # Build two vectors
 xwhich <- c(2,10:11) # let's put cyl, gear, and carb in here
 ywhich <- c(8:9) # let's put vs and am in here
@@ -99,7 +99,7 @@ Other things we'd like to accomplish:
 
 Let's start with the first item.  As a minimum we can add a title with `ggtitle("Crosstabulation of mtcars variables")` and `ylab("Count")`
 
-```{r therightway2, fig.width=4.5,fig.height=2}
+```{r betterfunctions4, fig.width=4.5,fig.height=2}
 PlotMe <- function(dataframe,x,y){
    aaa <- enquo(x)
    bbb <- enquo(y)
@@ -118,7 +118,7 @@ PlotMe(mtcars,am,cyl)
 
 Totally uninspired but serviceable.  Better yet is to use `bquote` and the `.()` notation to make it more pertinent and portable. Notice that we had to create a new object called `dfname` to hold the name of the dataframe and that the name is quoted.  So that means that inside our function `dataframe` actually refers to the whole dataset `mtcars` all the rows and columns and data itself. `dfname` on the other hand, is just a way for us to print out the word **mtcars** without having to hard code it in.  No matter what dataframe we pass in to the function the right name gets printed.  **NB** friendly reminder that if you try and cheat and pass `x` or `y` to bquote they will fail miserably the `enquo` is essential.
 
-```{r therightway3, fig.width=4.5,fig.height=2}
+```{r betterfunctions5, fig.width=4.5,fig.height=2}
 PlotMe <- function(dataframe,x,y){
    aaa <- enquo(x)
    bbb <- enquo(y)
@@ -142,7 +142,7 @@ That's the fun of building and testing a function, it's looking for all the ways
 
 Now if we were doing this with `dplyr` outside of a function it would be simple.  What we want is just...
 
-```{r simpledyplr}
+```{r betterfunctions6}
 mtcars %>%
   filter(!is.na(am), !is.na(cyl))  %>%
   mutate(am = factor(am), cyl = factor(cyl)) %>%
@@ -156,7 +156,7 @@ The problem is we're inside a function and just as with our `filter` and `group_
 
 so instead of `=` we'll use `:=` but most importantly as you'll see from the code below it works and produces the tibble we need to drive `ggplot` to produce the output we'd like...
 
-```{r therightway4, fig.width=4.5,fig.height=2}
+```{r betterfunctions7, fig.width=4.5,fig.height=2}
 PlotMe <- function(dataframe,x,y){
   aaa <- enquo(x)
   bbb <- enquo(y)
@@ -192,7 +192,7 @@ The first few functions I wrote I didn't worry about error-checking. After all I
 
 Typically I have statements I simply cut and paste from one function to the next as needed (feel free to borrow anything of mine you see you like).  Some easy examples I'll pass along to you in this next version of the function.  I also find it useful to try the function on different datasets just to make sure I'm not building something that only works on `mtcars` so I've added a plot for `ToothGrowth` even if it is a bit contrived.
 
-```{r errorchecking1, fig.width=4.5,fig.height=2}
+```{r betterfunctions8, fig.width=4.5,fig.height=2}
 PlotMe <- function(dataframe,x,y){
 # error checking
   if (!require(ggplot2)) {
@@ -241,7 +241,7 @@ PlotMe(ToothGrowth,supp,dose)
 
 It may seem silly to have more lines of error-checking than code but trust me it's worth it in the long haul.  I like to test and see what happens for at least some common or likely mistakes that I or another user might make. Part of my planning is to try and return the most helpful or useful error or warning message I can.  Try them if you like...
 
-```{r errorchecking2, eval=FALSE}
+```{r betterfunctions9, eval=FALSE}
 PlotMe(mtcars) # too few parameters
 # Error in PlotMe(mtcars) : 
 #   Not enough arguments passed... requires a dataframe, plus two variables
