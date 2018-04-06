@@ -1,7 +1,9 @@
-Writing better R functions part one – April 6, 2018
-================
-Chuck Powell
-4/6/2018
+---
+layout: post
+title: Writing better R functions part one -- April 6, 2018
+tags: R ggplot2 functions dplyr NSE lapply mapply
+---
+
 
 One of the nicest things about working with `R` is that with very little
 effort you can customize and automate activities to produce the output
