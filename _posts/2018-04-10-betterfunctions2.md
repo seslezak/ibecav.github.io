@@ -68,7 +68,7 @@ PlotMe <- function(dataframe,x,y){
   if (!require(dplyr)) {
     stop("Can't continue can't load dplyr")
   }
-  dfname <- enquo(dataframe)
+  dfname <- deparse(substitute(dataframe))
   aaa <- enquo(x)
   bbb <- enquo(y)
   if (length(match.call()) <= 3) {
@@ -190,7 +190,7 @@ PlotMeX <- function(dataframe, x, y, plottype = "side"){
   
   aaa <- enquo(x)
   bbb <- enquo(y)
-  dfname <- enquo(dataframe)
+  dfname <- deparse(substitute(dataframe))
   dataframe %>%
     filter(!is.na(!! aaa), !is.na(!! bbb))  %>%
     mutate(!!quo_name(aaa) := factor(!!aaa), !!quo_name(bbb) := factor(!!bbb)) %>%
