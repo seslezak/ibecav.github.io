@@ -1,9 +1,7 @@
----
-layout: post
-title: Writing better R functions part two – April 10, 2018
-tags: R ggplot2 functions dplyr NSE lapply mapply
----
-
+Writing better R functions part two – April 10, 2018
+================
+Chuck Powell
+4/10/2018
 
 [In my last post](https://ibecav.github.io/betterfunctions/) I started
 to build two functions that took pairs of variables from a dataset and
@@ -45,7 +43,7 @@ mtcars %>%
     geom_bar(position="dodge", stat="identity")
 ```
 
-![](/images/better1-1.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better1-1.png)<!-- -->
 
 [By the end of the last post](https://ibecav.github.io/betterfunctions/)
 we had accomplished the following tasks:
@@ -68,7 +66,7 @@ PlotMe <- function(dataframe,x,y){
   if (!require(dplyr)) {
     stop("Can't continue can't load dplyr")
   }
-  dfname <- enquo(dataframe)
+  dfname <- deparse(substitute(dataframe))
   aaa <- enquo(x)
   bbb <- enquo(y)
   if (length(match.call()) <= 3) {
@@ -105,7 +103,7 @@ PlotMe <- function(dataframe,x,y){
 PlotMe(mtcars,am,cyl)
 ```
 
-![](/images/better2-1.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better2-1.png)<!-- -->
 
 ## Making our function better
 
@@ -113,17 +111,17 @@ Our next step is to allow the user to choose which of three plot types
 they’d like. We have been focusing on simple side by side grouped bars
 that are obtained with `geom_bar(position="dodge", stat="identity")`
 
-![](/images/better3-1.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better3-1.png)<!-- -->
 
 But we can also *“stack”* the bars with by changing to
 `geom_bar(stat="identity")`
 
-![](/images/better4-1.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better4-1.png)<!-- -->
 
 Or focus on percentages of the category totals with
 `geom_bar(stat="identity", position="fill")`…
 
-![](/images/better5-1.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better5-1.png)<!-- -->
 
 The key is that our entire function is the same, except for one part of
 one line in the function the `geom_bar()`. The last thing we want to do
@@ -190,7 +188,7 @@ PlotMeX <- function(dataframe, x, y, plottype = "side"){
   
   aaa <- enquo(x)
   bbb <- enquo(y)
-  dfname <- enquo(dataframe)
+  dfname <- deparse(substitute(dataframe))
   dataframe %>%
     filter(!is.na(!! aaa), !is.na(!! bbb))  %>%
     mutate(!!quo_name(aaa) := factor(!!aaa), !!quo_name(bbb) := factor(!!bbb)) %>%
@@ -204,19 +202,19 @@ PlotMeX <- function(dataframe, x, y, plottype = "side"){
 PlotMeX(mtcars,am,vs)
 ```
 
-![](/images/better9-1.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better9-1.png)<!-- -->
 
 ``` r
 PlotMeX(mtcars,am,vs, "stack")
 ```
 
-![](/images/better9-2.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better9-2.png)<!-- -->
 
 ``` r
 PlotMeX(mtcars,am,vs, "percent")
 ```
 
-![](/images/better9-3.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better9-3.png)<!-- -->
 
 Looks good\!
 
@@ -302,7 +300,7 @@ return two copes of the plots. More on that in a bit.
 invisible(mapply(PlotMeX, x=indvars, y=depvars, MoreArgs = list(dataframe=mtcars), SIMPLIFY = FALSE, USE.NAMES = FALSE))
 ```
 
-![](/images/better13-1.png)<!-- -->![](/images/better13-2.png)<!-- -->![](/images/better13-3.png)<!-- -->![](/images/better13-4.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better13-1.png)<!-- -->![](betterfunctions2_files/figure-gfm/better13-2.png)<!-- -->![](betterfunctions2_files/figure-gfm/better13-3.png)<!-- -->![](betterfunctions2_files/figure-gfm/better13-4.png)<!-- -->
 
 Notice that `MoreArgs` is a list. We are passing it the name of the
 `mtcars` dataset but we can also pass it other parameters such as our
@@ -313,7 +311,7 @@ preference.
 invisible(mapply(PlotMeX, x=indvars, y=depvars, MoreArgs = list(dataframe=mtcars, plottype = "percent"), SIMPLIFY = FALSE, USE.NAMES = FALSE))
 ```
 
-![](/images/better14-1.png)<!-- -->![](/images/better14-2.png)<!-- -->![](/images/better14-3.png)<!-- -->![](/images/better14-4.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better14-1.png)<!-- -->![](betterfunctions2_files/figure-gfm/better14-2.png)<!-- -->![](betterfunctions2_files/figure-gfm/better14-3.png)<!-- -->![](betterfunctions2_files/figure-gfm/better14-4.png)<!-- -->
 
 Now we can turn this working code into a function so we can reuse it. To
 do that we’ll have the user specify the `dataframe`, `xwhich` and
@@ -377,7 +375,7 @@ same.
 invisible(mapply(PlotMeX, x=bothlists$indvars, y=bothlists$depvars, MoreArgs = list(dataframe=mtcars, plottype = "stack"), SIMPLIFY = FALSE, USE.NAMES = FALSE))
 ```
 
-![](/images/better17-1.png)<!-- -->![](/images/better17-2.png)<!-- -->![](/images/better17-3.png)<!-- -->![](/images/better17-4.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better17-1.png)<!-- -->![](betterfunctions2_files/figure-gfm/better17-2.png)<!-- -->![](betterfunctions2_files/figure-gfm/better17-3.png)<!-- -->![](betterfunctions2_files/figure-gfm/better17-4.png)<!-- -->
 
 Appears to be working as we want it to. Which means it’s a good time to
 test it on some other data and see if anything breaks. Let’s try the
@@ -400,7 +398,7 @@ str(esoph)
 PlotMeX(esoph,alcgp,tobgp)
 ```
 
-![](/images/better18-1.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better18-1.png)<!-- -->
 
 ``` r
 bothlists <- CrossXYs(esoph,1,c(2:3))
@@ -415,7 +413,7 @@ bothlists <- CrossXYs(esoph,1,c(2:3))
 invisible(mapply(PlotMeX, x=bothlists$indvars, y=bothlists$depvars, MoreArgs = list(dataframe=esoph, plottype = "percent"), SIMPLIFY = FALSE, USE.NAMES = FALSE))
 ```
 
-![](/images/better18-2.png)<!-- -->![](/images/better18-3.png)<!-- -->
+![](betterfunctions2_files/figure-gfm/better18-2.png)<!-- -->![](betterfunctions2_files/figure-gfm/better18-3.png)<!-- -->
 
 Very nice\! We seem to have accomplished what we set out to do.
 
