@@ -1,7 +1,8 @@
-Writing better R functions part three – April 13, 2018
-================
-Chuck Powell
-4/13/2018
+---
+layout: post
+title: Writing better R functions part three -- April 13, 2018
+tags: R ggplot2 functions dplyr for-loop
+---
 
 [In my last post](https://ibecav.github.io/betterfunctions2/) I worked
 on two functions that took pairs of variables from a dataset and
