@@ -49,7 +49,7 @@ mtcars %>%
     geom_bar(position="dodge", stat="identity")
 ```
 
-![](betterfunctions3_files/figure-gfm/evenbetter1-1.png)<!-- -->
+![](/images/evenbetter1-1.png)<!-- -->
 
 [By the end of the last
 post](https://ibecav.github.io/betterfunctions2/) we had accomplished
@@ -97,19 +97,19 @@ PlotMeX <- function(dataframe, x, y, plottype = "side"){
 PlotMeX(mtcars, am, vs, "stack")
 ```
 
-![](betterfunctions3_files/figure-gfm/evenbetter2-1.png)<!-- -->
+![](/images/evenbetter2-1.png)<!-- -->
 
 ``` r
 PlotMeX(mtcars, am, vs, "percent")
 ```
 
-![](betterfunctions3_files/figure-gfm/evenbetter2-2.png)<!-- -->
+![](/images/evenbetter2-2.png)<!-- -->
 
 ``` r
 PlotMeX(esoph, alcgp, tobgp, "side")
 ```
 
-![](betterfunctions3_files/figure-gfm/evenbetter2-3.png)<!-- -->
+![](/images/evenbetter2-3.png)<!-- -->
 
 As you can see it works fine as far as we can tell on the `mtcars` data
 set as well as the `esoph` dataset (which is also smallish). The problem
@@ -207,7 +207,7 @@ PlotMeX <- function(dataframe, x, y, plottype = "side"){
 PlotMeX(mtcars,am,vs)
 ```
 
-![](betterfunctions3_files/figure-gfm/evenbetter5-1.png)<!-- -->
+![](/images/evenbetter5-1.png)<!-- -->
 
     ## [1] "mtcars"
 
@@ -215,7 +215,7 @@ PlotMeX(mtcars,am,vs)
 PlotMeX(mtcars,am,vs, "stack")
 ```
 
-![](betterfunctions3_files/figure-gfm/evenbetter5-2.png)<!-- -->
+![](/images/evenbetter5-2.png)<!-- -->
 
     ## [1] "mtcars"
 
@@ -223,7 +223,7 @@ PlotMeX(mtcars,am,vs, "stack")
 PlotMeX(mtcars,am,vs, "percent")
 ```
 
-![](betterfunctions3_files/figure-gfm/evenbetter5-3.png)<!-- -->
+![](/images/evenbetter5-3.png)<!-- -->
 
     ## [1] "mtcars"
 
@@ -360,7 +360,7 @@ just two column numbers
 PlotMeX(mtcars, vs, cyl)
 ```
 
-![](betterfunctions3_files/figure-gfm/evenbetter8-1.png)<!-- -->
+![](/images/evenbetter8-1.png)<!-- -->
 
 ``` r
 PlotMeX(mtcars, c(8:9), c(2,10), plottype = "stack")
@@ -370,19 +370,19 @@ PlotMeX(mtcars, c(8:9), c(2,10), plottype = "stack")
 
     ## Pairing #1 vs with cyl
 
-![](betterfunctions3_files/figure-gfm/evenbetter8-2.png)<!-- -->
+![](/images/evenbetter8-2.png)<!-- -->
 
     ## Pairing #2 vs with gear
 
-![](betterfunctions3_files/figure-gfm/evenbetter8-3.png)<!-- -->
+![](/images/evenbetter8-3.png)<!-- -->
 
     ## Pairing #3 am with cyl
 
-![](betterfunctions3_files/figure-gfm/evenbetter8-4.png)<!-- -->
+![](/images/evenbetter8-4.png)<!-- -->
 
     ## Pairing #4 am with gear
 
-![](betterfunctions3_files/figure-gfm/evenbetter8-5.png)<!-- -->
+![](/images/evenbetter8-5.png)<!-- -->
 
     ## $dataframe
     ## mtcars
@@ -404,7 +404,7 @@ PlotMeX(mtcars, 2, 8, "percent")
 
     ## Pairing #1 cyl with vs
 
-![](betterfunctions3_files/figure-gfm/evenbetter8-6.png)<!-- -->
+![](/images/evenbetter8-6.png)<!-- -->
 
     ## $dataframe
     ## mtcars
