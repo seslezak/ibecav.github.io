@@ -687,7 +687,7 @@ PlotMeX(happy, happy, c(6,7,9), plottype = "percent")
 
     ## Plotting complete
 
-![](/images/best9,%20-20.png)<!-- -->
+![](/images/best9-20.png)<!-- -->
 
 ``` r
 PlotMeX(happy, c(6,7,9), happy, plottype = "percent")
@@ -697,17 +697,17 @@ PlotMeX(happy, c(6,7,9), happy, plottype = "percent")
 
     ## Plot #1 marital with happy
 
-![](/images/best9,%20-21.png)<!-- -->
+![](/images/best9-21.png)<!-- -->
 
     ## Plot #2 degree with happy
 
-![](/images/best9,%20-22.png)<!-- -->
+![](/images/best9-22.png)<!-- -->
 
     ## Plot #3 health with happy
 
     ## Plotting complete
 
-![](/images/best9,%20-23.png)<!-- -->
+![](/images/best9-23.png)<!-- -->
 
 It’s probably the case that no function is ever truly “done” but this
 one is good enough for now. This has become yet another very long post
