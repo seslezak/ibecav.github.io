@@ -381,7 +381,7 @@ Rather than provide my own or make anyone work too hard I selected that `happy` 
 
 We'll be focusing on the non numeric variables.  I certainly can't claim to do a detailed analysis here but at least the questions will be fun I hope...
 
-```{r best9, , fig.width=5.5, fig.height=3}
+```{r best9, fig.width=5.5, fig.height=3}
 PackageList <- .packages(all.available = TRUE)
 if ("productplots" %in% PackageList) {
   data("happy",package = "productplots")
