@@ -133,7 +133,7 @@ PlotMeX <- function(dataframe, xwhich, ywhich, plottype = "side"){
 PlotMeX(mtcars, am, cyl)
 ```
 
-![](/image/best1-1.png)<!-- -->
+![](/images/best1-1.png)<!-- -->
 
 ``` r
 # exact same thing using column numbers rather than names
@@ -144,7 +144,7 @@ PlotMeX(mtcars, 9, 2)
 
     ## Pairing #1 am with cyl
 
-![](/image/best1-2.png)<!-- -->
+![](/images/best1-2.png)<!-- -->
 
     ## $dataframe
     ## mtcars
@@ -164,19 +164,19 @@ PlotMeX(mtcars, c(9, 2), c(8,10), "percent")
 
     ## Pairing #1 am with vs
 
-![](/image/best1-3.png)<!-- -->
+![](/images/best1-3.png)<!-- -->
 
     ## Pairing #2 am with gear
 
-![](/image/best1-4.png)<!-- -->
+![](/images/best1-4.png)<!-- -->
 
     ## Pairing #3 cyl with vs
 
-![](/image/best1-5.png)<!-- -->
+![](/images/best1-5.png)<!-- -->
 
     ## Pairing #4 cyl with gear
 
-![](/image/best1-6.png)<!-- -->
+![](/images/best1-6.png)<!-- -->
 
     ## $dataframe
     ## mtcars
@@ -567,7 +567,7 @@ PlotMeX(happy,happy,sex)
 
     ## Plotted dataset happy variables happy by sex
 
-![](/image/best9,%20-1.png)<!-- -->
+![](/images/best9,%20-1.png)<!-- -->
 
 ``` r
 # same thing using column numbers and a stacked bar
@@ -580,7 +580,7 @@ PlotMeX(happy,2,5,"stack")
 
     ## Plotting complete
 
-![](/image/best9,%20-2.png)<!-- -->
+![](/images/best9,%20-2.png)<!-- -->
 
 ``` r
 # happiness by a variety of possible factors as a percent
@@ -591,25 +591,25 @@ PlotMeX(happy, 2, c(5:9), plottype = "percent")
 
     ## Plot #1 happy with sex
 
-![](/image/best9,%20-3.png)<!-- -->
+![](/images/best9,%20-3.png)<!-- -->
 
     ## Plot #2 happy with marital
 
-![](/image/best9,%20-4.png)<!-- -->
+![](/images/best9,%20-4.png)<!-- -->
 
     ## Plot #3 happy with degree
 
-![](/image/best9,%20-5.png)<!-- -->
+![](/images/best9,%20-5.png)<!-- -->
 
     ## Plot #4 happy with finrela
 
-![](/image/best9,%20-6.png)<!-- -->
+![](/images/best9,%20-6.png)<!-- -->
 
     ## Plot #5 happy with health
 
     ## Plotting complete
 
-![](/image/best9,%20-7.png)<!-- -->
+![](/images/best9,%20-7.png)<!-- -->
 
 ``` r
 # turn the numbers around and change them up basically just showing all
@@ -621,13 +621,13 @@ PlotMeX(happy, c(2,5), 9, plottype = "side")
 
     ## Plot #1 happy with health
 
-![](/image/best9,%20-8.png)<!-- -->
+![](/images/best9,%20-8.png)<!-- -->
 
     ## Plot #2 sex with health
 
     ## Plotting complete
 
-![](/image/best9,%20-9.png)<!-- -->
+![](/images/best9,%20-9.png)<!-- -->
 
 ``` r
 PlotMeX(happy, c(2,5), c(6:9), plottype = "percent")
@@ -637,37 +637,37 @@ PlotMeX(happy, c(2,5), c(6:9), plottype = "percent")
 
     ## Plot #1 happy with marital
 
-![](/image/best9,%20-10.png)<!-- -->
+![](/images/best9,%20-10.png)<!-- -->
 
     ## Plot #2 happy with degree
 
-![](/image/best9,%20-11.png)<!-- -->
+![](/images/best9,%20-11.png)<!-- -->
 
     ## Plot #3 happy with finrela
 
-![](/image/best9,%20-12.png)<!-- -->
+![](/images/best9,%20-12.png)<!-- -->
 
     ## Plot #4 happy with health
 
-![](/image/best9,%20-13.png)<!-- -->
+![](/images/best9,%20-13.png)<!-- -->
 
     ## Plot #5 sex with marital
 
-![](/image/best9,%20-14.png)<!-- -->
+![](/images/best9,%20-14.png)<!-- -->
 
     ## Plot #6 sex with degree
 
-![](/image/best9,%20-15.png)<!-- -->
+![](/images/best9,%20-15.png)<!-- -->
 
     ## Plot #7 sex with finrela
 
-![](/image/best9,%20-16.png)<!-- -->
+![](/images/best9,%20-16.png)<!-- -->
 
     ## Plot #8 sex with health
 
     ## Plotting complete
 
-![](/image/best9,%20-17.png)<!-- -->
+![](/images/best9,%20-17.png)<!-- -->
 
 ``` r
 PlotMeX(happy, happy, c(6,7,9), plottype = "percent")
@@ -677,17 +677,17 @@ PlotMeX(happy, happy, c(6,7,9), plottype = "percent")
 
     ## Plot #1 happy with marital
 
-![](/image/best9,%20-18.png)<!-- -->
+![](/images/best9,%20-18.png)<!-- -->
 
     ## Plot #2 happy with degree
 
-![](/image/best9,%20-19.png)<!-- -->
+![](/images/best9,%20-19.png)<!-- -->
 
     ## Plot #3 happy with health
 
     ## Plotting complete
 
-![](/image/best9,%20-20.png)<!-- -->
+![](/images/best9,%20-20.png)<!-- -->
 
 ``` r
 PlotMeX(happy, c(6,7,9), happy, plottype = "percent")
@@ -697,17 +697,17 @@ PlotMeX(happy, c(6,7,9), happy, plottype = "percent")
 
     ## Plot #1 marital with happy
 
-![](/image/best9,%20-21.png)<!-- -->
+![](/images/best9,%20-21.png)<!-- -->
 
     ## Plot #2 degree with happy
 
-![](/image/best9,%20-22.png)<!-- -->
+![](/images/best9,%20-22.png)<!-- -->
 
     ## Plot #3 health with happy
 
     ## Plotting complete
 
-![](/image/best9,%20-23.png)<!-- -->
+![](/images/best9,%20-23.png)<!-- -->
 
 It’s probably the case that no function is ever truly “done” but this
 one is good enough for now. This has become yet another very long post
