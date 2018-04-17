@@ -1,7 +1,8 @@
-Writing better R functions final part four – April 17, 2018
-================
-Chuck Powell
-4/17/2018
+---
+layout: post
+title: Writing better R functions part four – April 17, 2018
+tags: R ggplot2 functions dplyr for-loop
+---
 
 In my last four posts I have been working at automating a process, that
 I am likely to repeat many times, by turning it into a proper `R
