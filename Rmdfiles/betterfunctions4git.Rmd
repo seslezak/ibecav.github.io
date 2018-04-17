@@ -1,0 +1,414 @@
+---
+title: "Writing better R functions final part four -- April 17, 2018"
+author: "Chuck  Powell"
+date: "4/17/2018"
+output: github_document
+tags: R ggplot2 functions dplyr for-loop
+---
+
+In my last four posts I have been working at automating a process, that I am likely to repeat many times, by turning it into a proper `R function`.  [In my last post](https://ibecav.github.io/betterfunctions3/) I overcame some real performance problems, combined two sub-functions into one and generally had a workable piece of code.  In the final post in this series today I'll accomplish two more important tasks. I'll once again refactor the code to streamline it, and I'll give the user a lot more flexibility on how they input their request.
+
+>   **I'm going to output all the plots in a smaller size for the benefit of you the readers.  I'm doing that via RMarkdown and it won't happen automatically for you if you download and use the code.  I'll initially be using, fig.width=4.5, fig.height=2 and later slighly larger than that** 
+
+## Background and catch-up
+
+```{r setup, warning = FALSE, message = FALSE, echo=FALSE}
+library(dplyr)
+library(ggplot2)
+theme_set(theme_bw()) # set theme to my personal preference
+```
+
+We originally started with a simple task -- using `dplyr` and `ggplot2` in the console. Take two of the `mtcars` variables, in this case `am` and `cyl`, and conduct a cross tabulation and then plot it.  Since it's the sort of thing I'm likely to do often seemed like a good candidate to write a function for.  Then I decided that I might very well want the function to allow me to input more than two variables at a time.  It would be very tedious to execute the command 25 times if I had 5 dependent variables and 5 independent variables and needed to fully cross them.
+
+So the code grew and you can see below I address those two use cases in the code. I have very deliberately left comments in the code so that you trace the process.  Roughly speaking if you follow the code here's what's happening.
+
+1. Error checking. Do we have the right packages? The right number of arguments passed in? Does the first object even exist and is it a data frame?
+2. Which type of plot does the user want?
+3. Some `if` logic that says in effect if both the parameters passed in as bare names are columns (variables) in the dataframe, make the plot and leave the function or `return`. 
+4. If the user has given us two column numbers, or vectors e.g. `c(8:15)` of column numbers as input then run them through some `for-loops` to completely cross them and print the plots.
+5. If you make it that far then exit the function and `return` the list of arguments we were passed in to begin with.
+
+```{r best1, fig.width=4.5, fig.height=2}
+PlotMeX <- function(dataframe, xwhich, ywhich, plottype = "side"){
+  # error checking
+  if (!require(ggplot2)) {
+    stop("Can't continue can't load ggplot2")
+  }
+  theme_set(theme_bw())
+  if (!require(dplyr)) {
+    stop("Can't continue can't load dplyr")
+  }
+  if (length(match.call()) <= 3) {
+    stop("Not enough arguments passed... requires a dataframe, plus at least two variables")
+  }
+  argList <-  as.list(match.call()[-1])
+  if (!exists(deparse(substitute(dataframe)))) {
+    stop("The first object in your list does not exist. It should be a dataframe")
+  }
+  if (!is(dataframe, "data.frame")) {
+    stop("The first name you passed does not appear to be a data frame")
+  }
+  switch(plottype,
+         side =  list(geom_bar(position="dodge", stat="identity"),
+                      ylab("Count")) -> whichbar,
+         stack = list(geom_bar(stat="identity"),
+                      ylab("Count")) -> whichbar,
+         percent = list(geom_bar(stat="identity", position="fill"),
+                        ylab("Percent")) -> whichbar
+  )
+# If both variables are found in the dataframe immediately print the plot
+  if (deparse(substitute(xwhich)) %in% names(dataframe) & deparse(substitute(ywhich)) %in% names(dataframe)) {
+    aaa <- enquo(xwhich)
+    bbb <- enquo(ywhich)
+    xname <- deparse(substitute(xwhich))
+    yname <- deparse(substitute(ywhich))
+    dfname <- deparse(substitute(dataframe))
+    dataframe %>%
+      filter(!is.na(!! aaa), !is.na(!! bbb))  %>%
+      mutate(!!quo_name(aaa) := factor(!!aaa), !!quo_name(bbb) := factor(!!bbb)) %>%
+      group_by(!! aaa,!! bbb) %>%
+      count() -> tempdf
+    tempdf %>%
+      ggplot(aes_(fill=aaa, y=~n, x=bbb)) +
+      whichbar +
+      ggtitle(bquote("Crosstabs dataset: "*.(dfname)*" variables "*.(xname)~"by "*.(yname))) -> p
+    return(p)
+  }
+# If the user has given us integers indicating the column numbers rather than bare variable names
+  # we need to build a list of what is to be plotted and then do the plotting
+  # Build two lists
+  indvars<-list() # create empty list to add to
+  depvars<-list() # create empty list to add to
+  totalcombos <- 1 # keep track of where we are
+  message("Creating the variable pairings...")
+  for (j in seq_along(xwhich)) {
+    for (k in seq_along(ywhich)) {
+      depvarsbare <- as.name(colnames(dataframe[xwhich[[j]]]))
+      indvarsbare <- as.name(colnames(dataframe[ywhich[[k]]]))
+      cat("Pairing #", totalcombos, " ", as.name(colnames(dataframe[xwhich[[j]]])),
+          " with ", as.name(colnames(dataframe[ywhich[[k]]])), "\n", sep = "")
+      aaa <- enquo(depvarsbare)
+      bbb <- enquo(indvarsbare)
+      xname <- deparse(substitute(depvarsbare))
+      yname <- deparse(substitute(indvarsbare))
+      dfname <- deparse(substitute(dataframe))
+      dataframe %>%
+        filter(!is.na(!! aaa), !is.na(!! bbb))  %>%
+        mutate(!!quo_name(aaa) := factor(!!aaa), !!quo_name(bbb) := factor(!!bbb)) %>%
+        group_by(!! aaa,!! bbb) %>%
+        count() -> tempdf
+      tempdf %>%
+        ggplot(aes_(fill=aaa, y=~n, x=bbb)) +
+        whichbar +
+        ggtitle(bquote("Crosstabs dataset: "*.(dfname)*" variables "*.(xname)~"by "*.(yname))) -> p
+      print(p)
+      totalcombos <- totalcombos +1
+    }
+  }
+  return(argList)
+}
+PlotMeX(mtcars, am, cyl)
+# exact same thing using column numbers rather than names
+PlotMeX(mtcars, 9, 2)
+# a more complex example and using a different plot type
+PlotMeX(mtcars, c(9, 2), c(8,10), "percent")
+```
+
+If you'd like a detailed review of the sub components it's covered in earlier posts. In particular, if you're not familiar with the **"tricks"** of working with `dplyr` and `ggplot2` inside of functions [you may want to look at this post](https://ibecav.github.io/betterfunctions2/) if you're not familiar with `enquo` or the `!!` notation.
+
+As you can see from the output, it works fine as far as we can tell on the `mtcars` data set for the two cases we have identified so far.  It's not pretty and there is clearly some repetition but hey it is good enough for my needs at this point.
+
+Except it isn't...
+
+## Complexity and simplicity and user choices
+
+Turns out I needed more. In my line of work it's not uncommon to have a small number of dependent variables and a much larger number of independent variables that you want to examine.  Although it's a very contrived example let's keep using the `mtcars` dataset (I promise I'll use something more fun in a bit). Let's say that I'm interested in plotting the relationship between `cyl` (the number of cylinders) and all of `vs`, `am`, `gear` & `carb`. That will be a total of four plots. My current function would allow me to call `PlotMeX(mtcars, 2, c(8:11), "percent")` which is all well and good. But, I know my working preferences and I know at some point I will think `PlotMeX(mtcars, cyl, c(8:11), "percent")`. So lets see what happens. 
+
+```{r best2, eval=FALSE}
+PlotMeX(mtcars, cyl, c(8:11), "percent")
+# Quitting from lines 32-116 (betterfunctions4git.Rmd) 
+# Error in PlotMeX(mtcars, cyl, c(8:11), "percent") : 
+#  object 'cyl' not found
+# Calls: <Anonymous> ... withCallingHandlers -> withVisible -> eval -> eval -> PlotMeX
+# Execution halted
+```
+
+Ugh! Not only does it fail but it fails **ugly**. What the heck does it mean `object cyl not found`? Everyone knows that cyl is a column in mtcars!
+
+One approach is simply make it clear to the user that she can choose either one way of calling the function (with bare variables) or the other by using integers to proxy for column numbers.  But they can't mix and match like that.  That's a very classic response to this issue.  But I actually see it as an opportunity to make the function more flexible and useful. 
+
+That means we have four major possibilities not two.  So we're going to have to figure out which of those possible paths we're on.  That's what I set out to do.
+
+## Refactoring again
+
+It didn't take me long to realize that as I moved from two possibilities to four possibilities if I wasn't careful I'd wind up repeating myself (by cutting and pasting the same code) over and over again.  In particular the central piece of code in the function, the one that does the real work is likely to be the same not just in two cases or four cases but literally in almost any case.  That is the very snippet of code we developed several posts ago.
+
+```{r best3, eval=FALSE}
+    dataframe %>%
+      filter(!is.na(!! aaa), !is.na(!! bbb))  %>%
+      mutate(!!quo_name(aaa) := factor(!!aaa), !!quo_name(bbb) := factor(!!bbb)) %>%
+      group_by(!! aaa,!! bbb) %>%
+      count() -> tempdf
+    tempdf %>%
+      ggplot(aes_(fill=aaa, y=~n, x=bbb)) +
+      whichbar +
+      ggtitle(bquote("Crosstabs dataset: "*.(dfname)*" variables "*.(xname)~"by "*.(yname))) -> p
+```
+
+It takes our dataframe (`dataframe`) and two variables (`aaa` and `bbb`) and does magic to produce the plot (`p`). `tempdf` is just a temporary dataframe (well `tibble` actually) to hold our cross-tabulation. `dfname`, `xname`, and `yname` are really just character versions of the names that we used to make nice labels.  
+
+Now, I already told you as I rewrote the code on my first pass I simply did just cut and paste this chunk a few times.  It's not hard at all in `RStudio`. Could have stayed that way. But here's the real rub. A week from now when someone asks me to change the Plot title or make some other change I'll have to do the same thing at least four times.  That's annoying.  And prone to error. 
+
+In my mind I always new the smart thing to do was to make this a function within the main function and just call it when needed. And that what I did.  Here's what that looks like.
+
+```{r best4, eval=FALSE}
+PlotMagic <-  function(dataframe,aaa,bbb,whichbar,dfname,xname,yname) {
+  dataframe %>%
+    filter(!is.na(!! aaa), !is.na(!! bbb))  %>%
+    mutate(!!quo_name(aaa) := factor(!!aaa), !!quo_name(bbb) := factor(!!bbb)) %>%
+    group_by(!! aaa,!! bbb) %>%
+    count() -> tempdf
+  tempdf %>%
+    ggplot(aes_(fill=aaa, y=~n, x=bbb)) +
+      whichbar +
+      ggtitle(bquote("Crosstabs dataset = "*.(dfname)*" and variables = "*.(xname)~"by "*.(yname))) -> p
+  print(p)
+  }
+```
+
+Now no matter what path I'm on I know what information I have to gather and just pass it along to do the work.  
+
+So before I do the big *reveal* and lay out all the code let's address some other issues as well.
+
+[Back in this post](https://ibecav.github.io/betterfunctions2/) we introduced a `switch` to allow the user to choose a plot type.  
+
+```{r best5, eval=FALSE}
+  switch(plottype,
+       side =  list(geom_bar(position="dodge", stat="identity"),
+                    ylab("Count")) -> whichbar,
+       stack = list(geom_bar(stat="identity"),
+                    ylab("Count")) -> whichbar,
+       percent = list(geom_bar(stat="identity", position="fill"),
+                    ylab("Percent")) -> whichbar
+    )
+```
+
+It works reliably, but there is a strong possibility that along the way users will make a typo or some other mistake.  So let's add a fail-safe default to the switch. We do that by adding a final unnamed entry, it could be anything, but in our case we'll set it so that if all else fails the user will get a side by side plot.
+
+```{r best6, eval=FALSE}
+  switch(plottype,
+         side =  list(geom_bar(position="dodge", stat="identity"),
+                      ylab("Count")) -> whichbar,
+         stack = list(geom_bar(stat="identity"),
+                      ylab("Count")) -> whichbar,
+         percent = list(geom_bar(stat="identity", position="fill"),
+                        ylab("Percent")) -> whichbar,
+         list(geom_bar(position="dodge", stat="identity"),
+              ylab("Count")) -> whichbar
+  )
+```
+
+And as long as we are rewriting we may as well be defensive in our list building.  As I mentioned last time for performance reasons it is a best practice to specify list lengths in advance rather than constantly copying the list and appending a new entry. We have several entries scattered around that look like `indvars<-list() # create empty list to add to` that we're going to change to the form `indvars <- vector("list", length = length(ywhich))`.  While it's unlikely I'll personally ever feed this function a very long vector better safe than sorry.
+
+## The logical tree
+
+On to the main event.  We need some logic that generally follows this pattern.
+
+Take the user's input and parse it into one of four known possibilities and then take appropriate action.  The possibilities are:
+
+1.  If both are `bare` variables and found in the dataframe immediately print the plot
+2.  At least one of the variables is `bare` and found in the dataframe (variable x) and the other is one or more column numbers (variable y)
+3.  At least one of the variables is `bare` and found in the dataframe (variable y) and the other is one or more column numbers (variable x)
+4.  Both the variables were passed to us as numbers.  Could be one or more numbers for either variable.
+
+We already have logic in our current version for #1 above and #4 happens by default.
+
+```{r best7, eval=FALSE}
+# If both variables are found in the dataframe immediately print the plot
+  if (deparse(substitute(xwhich)) %in% names(dataframe) & deparse(substitute(ywhich)) %in% names(dataframe))
+# If the user has given us integers indicating the column numbers rather than bare variable names 
+```
+
+My first plan was simply to write a series of `if statements` to lay out these conditions.  I like to avoid nested if statements whenever possible since personally when I go back to look at them later I usually have a hard time following what becomes relatively complex logic.
+
+I couldn't manage it. I'd be thrilled is someone comes along and shows me how I should have, but personally I had to resort to some amount of nesting.
+
+> Tip: `Rstudio` has a great feature that allows you to fold the code while you're editing it. Small triangles over by the line numbers.  They were immensely helpful!  Try them.
+
+I'm not going to try and describe the `if` structure in detail.  Instead I am going to show you the code and let you examine it.  For your convenience I have tried to place as many comments within the code as possible to help you parse the logic yourself.  I acknowledge in advance if I really tried I'm sure there is other duplication or inefficiency here I could eliminate, but it's good enough for now.  Take a look at the code and we'll see how it runs in a minute.
+
+```{r best8,  fig.width=4.5, fig.height=2}
+PlotMeX <- function(dataframe, xwhich, ywhich, plottype = "side"){
+# error checking
+  if (!require(ggplot2)) {
+    stop("Can't continue can't load ggplot2")
+  }
+  theme_set(theme_bw())
+  if (!require(dplyr)) {
+    stop("Can't continue can't load dplyr")
+  }
+  if (length(match.call()) <= 3) {
+    stop("Not enough arguments passed... requires a dataframe, plus at least two variables")
+  }
+  argList <-  as.list(match.call()[-1])
+  if (!exists(deparse(substitute(dataframe)))) {
+    stop("The first object in your list does not exist. It should be a dataframe")
+  }
+  if (!is(dataframe, "data.frame")) {
+    stop("The first name you passed does not appear to be a data frame")
+  }
+# process plottype logic -- default is side anything mispelled or not listed is also side
+  switch(plottype,
+         side =  list(geom_bar(position="dodge", stat="identity"),
+                      ylab("Count")) -> whichbar,
+         stack = list(geom_bar(stat="identity"),
+                      ylab("Count")) -> whichbar,
+         percent = list(geom_bar(stat="identity", position="fill"),
+                        ylab("Percent")) -> whichbar,
+         list(geom_bar(position="dodge", stat="identity"),
+              ylab("Count")) -> whichbar
+  )
+
+  PlotMagic <-  function(dataframe,aaa,bbb,whichbar,dfname,xname,yname) {
+     dataframe %>%
+        filter(!is.na(!! aaa), !is.na(!! bbb))  %>%
+        mutate(!!quo_name(aaa) := factor(!!aaa), !!quo_name(bbb) := factor(!!bbb)) %>%
+        group_by(!! aaa,!! bbb) %>%
+        count() -> tempdf
+     tempdf %>%
+        ggplot(aes_(fill=aaa, y=~n, x=bbb)) +
+        whichbar +
+        ggtitle(bquote("Crosstabs dataset = "*.(dfname)*" and variables = "*.(xname)~"by "*.(yname))) -> p
+     print(p)
+  }
+
+# If both are bare variables and found in the dataframe immediately print the plot
+  if (deparse(substitute(xwhich)) %in% names(dataframe) & deparse(substitute(ywhich)) %in% names(dataframe)) { # both are names in the dataframe
+    aaa <- enquo(xwhich)
+    bbb <- enquo(ywhich)
+    xname <- deparse(substitute(xwhich))
+    yname <- deparse(substitute(ywhich))
+    dfname <- deparse(substitute(dataframe))
+    PlotMagic(dataframe,aaa,bbb,whichbar,dfname,xname,yname)
+    return(message(paste("Plotted dataset", argList$dataframe, "variables", argList$xwhich, "by", argList$ywhich)))
+  } else { # is at least one in the dataframe?
+# Is at least one of them a bare variable in the dataframe
+    if (deparse(substitute(xwhich)) %in% names(dataframe)) { # xwhich is in the dataframe
+      aaa <- enquo(xwhich)
+      if (class(try(eval(ywhich))) %in% c("integer","numeric")) { # ywhich is column numbers
+        indvars <- vector("list", length = length(ywhich))
+        totalcombos <- 1 # keep track of where we are
+        xname <- deparse(substitute(xwhich))
+        dfname <- deparse(substitute(dataframe))
+        message("Creating the variable pairings from dataframe ", dfname)
+        for (k in seq_along(ywhich)) { #for loop
+          indvarsbare <- as.name(colnames(dataframe[ywhich[[k]]]))
+          cat("Plot #", totalcombos, " ", xname,
+              " with ", as.name(colnames(dataframe[ywhich[[k]]])), "\n", sep = "")
+          bbb <- enquo(indvarsbare)
+          yname <- deparse(substitute(indvarsbare))
+          PlotMagic(dataframe,aaa,bbb,whichbar,dfname,xname,yname)
+          totalcombos <- totalcombos +1
+        } # end of for loop
+          return(message("Plotting complete"))
+        } else { # ywhich is NOT suitable
+        stop("Sorry I don't understand your ywhich variable(s)")
+        } #
+
+      } else { # xwhich wasn't try ywhich
+        if (deparse(substitute(ywhich)) %in% names(dataframe)) { # yes ywhich is
+          bbb <- enquo(ywhich)
+          if (class(try(eval(xwhich))) %in% c("integer","numeric")) { # then xwhich a suitable number
+            # Build one list two ways
+            depvars <- vector("list", length = length(xwhich))
+            totalcombos <- 1 # keep track of where we are
+            yname <- deparse(substitute(ywhich))
+            dfname <- deparse(substitute(dataframe))
+            message("Creating the variable pairings from dataframe ", dfname)
+            for (j in seq_along(xwhich)) {
+              depvarsbare <- as.name(colnames(dataframe[xwhich[[j]]]))
+              cat("Plot #", totalcombos, " ", as.name(colnames(dataframe[xwhich[[j]]])),
+                  " with ", yname, "\n", sep = "")
+              aaa <- enquo(depvarsbare)
+              xname <- deparse(substitute(depvarsbare))
+              PlotMagic(dataframe,aaa,bbb,whichbar,dfname,xname,yname)
+              totalcombos <- totalcombos +1
+            } #end of for loop
+              return(message("Plotting complete"))
+          } else { # xwhich is NOT suitable
+            stop("Sorry I don't understand your xwhich variable(s)")
+          } #end of else because xwhich not suitable
+        } #end of if
+     }
+  }
+
+# If both variables are numeric print the plot(s)
+  if (class(try(eval(xwhich))) %in% c("integer","numeric") & class(try(eval(ywhich))) %in% c("integer","numeric")) {
+     indvars <- vector("list", length = length(ywhich))
+     depvars <- vector("list", length = length(xwhich))
+     dfname <- deparse(substitute(dataframe))
+     totalcombos <- 1 # keep track of where we are
+     message("Creating the variable pairings from dataframe ", dfname)
+     for (j in seq_along(xwhich)) {
+        for (k in seq_along(ywhich)) {
+           depvarsbare <- as.name(colnames(dataframe[xwhich[[j]]]))
+           indvarsbare <- as.name(colnames(dataframe[ywhich[[k]]]))
+           cat("Plot #", totalcombos, " ", as.name(colnames(dataframe[xwhich[[j]]])),
+               " with ", as.name(colnames(dataframe[ywhich[[k]]])), "\n", sep = "")
+           aaa <- enquo(depvarsbare)
+           bbb <- enquo(indvarsbare)
+           xname <- deparse(substitute(depvarsbare))
+           yname <- deparse(substitute(indvarsbare))
+                      PlotMagic(dataframe,aaa,bbb,whichbar,dfname,xname,yname)
+           totalcombos <- totalcombos +1
+        } # end of inner for loop
+     }  # end of outer for loop
+        return(message("Plotting complete"))
+  } # end of if case where all are numeric
+} # end of function
+
+```
+
+Not mentioned above but clear when we run the code is that I've also tried to rationalize the messaging you see in the console and the labeling of the plots themselves.
+
+## Are you happy I'm all done?
+
+For most of this series of posts I have focused on using the `mtcars` built-in dataset.  It's handy, convenient, and it's installed by default. To actually show the function in action I'm going to use a different dataset.  Something that should allow you to better see the value of making plots of the crosstabs rather than simple tables.  It also has the happy property of being much much larger than `mtcars` so we can see if there are lags in performance due to the number of rows.
+
+Rather than provide my own or make anyone work too hard I selected that `happy` dataset that comes bundled with several `R` packages including `productplots` and `GGally`.   From the description:
+
+> The data is a small sample of variables related to happiness from the general social survey (GSS). The GSS is a yearly cross-sectional survey of Americans, run from 1976. We combine data for 25 years to yield 51,020 observations, and of the over 5,000 variables, we select nine related to happiness. 
+
+We'll be focusing on the non numeric variables.  I certainly can't claim to do a detailed analysis here but at least the questions will be fun I hope...
+
+```{r best9, , fig.width=5.5, fig.height=3}
+PackageList <- .packages(all.available = TRUE)
+if ("productplots" %in% PackageList) {
+  data("happy",package = "productplots")
+} else {
+  stop("Can't load productplots can't use the following examples")
+}
+# who's happier by gender
+PlotMeX(happy,happy,sex)
+# same thing using column numbers and a stacked bar
+PlotMeX(happy,2,5,"stack")
+# happiness by a variety of possible factors as a percent
+PlotMeX(happy, 2, c(5:9), plottype = "percent")
+# turn the numbers around and change them up basically just showing all
+# the permutations
+PlotMeX(happy, c(2,5), 9, plottype = "side")
+PlotMeX(happy, c(2,5), c(6:9), plottype = "percent")
+PlotMeX(happy, happy, c(6,7,9), plottype = "percent")
+PlotMeX(happy, c(6,7,9), happy, plottype = "percent")
+```
+
+It's probably the case that no function is ever truly "done" but this one is good enough for now. This has become yet another very long post so I'm going to end here. 
+
+I hope you've found this useful.  I am always open to comments, corrections and suggestions.
+
+Chuck (ibecav at gmail dot com)
+
+### License
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+
