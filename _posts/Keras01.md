@@ -2,7 +2,6 @@
 title: "Loading Keras into R, Part 1"
 author: "Steven Slezak"
 date: 2018-03-14T18:12:29-07:00
-draft: true
 ---
 
 Late last year, Matt Dancho had [a post on deep learning][1] celebrating the arrival of the Python *keras* package for *R*. It is a very good tutorial on using artificial neural networks (ANN) to solve complicated business problems, well worth checking out.
