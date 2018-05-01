@@ -4,8 +4,8 @@ title: About
 permalink: /about/
 ---
 
-Full time R User, part time teacher and reluctant programmer!
+Data, Dogs, Ducati (and Baseball)
 
 ### Contact me
 
-[Chuck](mailto:ibecav@gmail.com)
+[Chuck](mailto:sslezak@finex.co)
