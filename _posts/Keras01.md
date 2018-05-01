@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Loading Keras into R, Part 1
-tags: keras, R, Python
+tags: keras, R, Python, neural nets, ANN, 
 ---
 
 Late last year, Matt Dancho had [a post on deep learning][1] celebrating the arrival of the Python *keras* package for *R*. It is a very good tutorial on using artificial neural networks (ANN) to solve complicated business problems, well worth checking out.
