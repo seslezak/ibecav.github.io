@@ -1,6 +1,7 @@
 ---
 layout: post
-title: "Loading Keras into R, Part 1"
+title: Loading Keras into R, Part 1
+tags: keras, R, Python
 author: "Steven Slezak"
 date: 2018-03-14T18:12:29-07:00
 ---
