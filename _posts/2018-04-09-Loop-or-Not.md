@@ -1,5 +1,6 @@
 ---
 title: "Building a Pivot Table in R (with a Bit of SQL)"
+tags: loops, style, R, vectorizing
 author: "Steven Slezak"
 date: 2018-04-06 16:08:57-07:00
 draft: true
