@@ -1,6 +1,6 @@
 ---
 title: "purrrs Like a Kitten till the Lake Pipes RoaR"
-tags: purr, magrittr, pipes
+tags: purr, magrittr, pipes, R
 author: "Steven Slezak"
 date: 2018-04-28 4:26:35-07:00
 draft: true
