@@ -1,7 +1,7 @@
 #
 # This file contains configuration flags to customize your site
 #
-theme: jekyll-theme-tactile
+theme: jekyll-theme-time-machine
 
 # Name of your site (displayed in the header)
 name: Steven Slezak
