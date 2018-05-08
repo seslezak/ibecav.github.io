@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "purrrs Like a Kitten till the Lake Pipes RoaR"
+title: "purrrs Like a Kitten 'til the Lake Pipes RoaR"
 tags: purr magrittr pipes R tidyverse
 ---
 
