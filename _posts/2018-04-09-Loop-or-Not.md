@@ -3,7 +3,6 @@ layout: post
 title: "Building a Pivot Table in R (with a Bit of SQL)"
 tags: loops style R vectorizing
 ---
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
