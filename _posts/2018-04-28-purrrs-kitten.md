@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "purrrs Like a Kitten 'til the Lake Pipes RoaR"
+date: 20 April 2018
 tags: purr magrittr pipes R tidyverse
 ---
-
-28 April 2018
 
 I really should make minimal effort to resist an opportunity to open a data analysis blog post with Beach Boys’ lyrics, but this time the temptation is overwhelming. We use the *purrr* package to show how to let your pipes roar in *R*.
 
