@@ -4,7 +4,7 @@ title: Displaying an HTML Page in Git
 tags: Git HTML Rmd R
 ---
 
-Setting up an HTML page in GitHub is not difficult but it is a bit lengthy. Just follow these steps.
+**13 March 2018** -- Setting up an HTML page in GitHub is not difficult but it is a bit lengthy. Just follow these steps.
 
 1.  Create the HTML from your RMarkdown document and save to your local directory.
 2.  Create a new repo, or go to an existing repo, in your GitHub.
