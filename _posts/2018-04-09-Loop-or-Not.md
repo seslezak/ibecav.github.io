@@ -4,7 +4,7 @@ title: "Building a Pivot Table in R (with a Bit of SQL)"
 tags: loops style R vectorizing
 ---
 
-9 April 2018 -- Building an Excel-style pivot table in <em>R</em> is not a problem. We are going to cover the process in this post. Like most data problems, the most involved part is cleaning and structuring the data in a manner suitable for the task. Those steps are decribed below, as well.
+**9 April 2018** -- Building an Excel-style pivot table in <em>R</em> is not a problem. We are going to cover the process in this post. Like most data problems, the most involved part is cleaning and structuring the data in a manner suitable for the task. Those steps are decribed below, as well.
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
