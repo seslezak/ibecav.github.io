@@ -4,6 +4,7 @@ title: "purrrs Like a Kitten 'til the Lake Pipes RoaR"
 tags: purr magrittr pipes R tidyverse
 ---
 
+XXXYYYZZZ
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
